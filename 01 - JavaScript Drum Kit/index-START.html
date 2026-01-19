@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
 
@@ -58,10 +60,40 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
+  <script>
+    function playSound(e) {
 
-</script>
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`) //why used double quotes for string interpolation -  to match with HTML's attribute syntax
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+      //console.log(audio);
+      if (!audio) return;// if other non-audio attached key pressed it returns 'null', so to not return anything used this if stat;
+      audio.currentTime = 0; //rewind the audio from start, so to listen audio from the start everytime key pressed , else pressing multiple times the key can't able to listen the audio everytime
+      audio.play();
+      //console.log(key);
+      key.classList.add('playing');
+      // //key.classList.remove('playing'); // can't use it as it ends animation immediately as played and u can't see animation
+      // setTimeout(() => {
+
+      // }, 0.9);
+      // cannot use this too as what if in css animation duration is different , etc. it will eventually lacks the system
+
+
+    }
+
+    function removeTransition(e) {
+      console.log(e); // one key pressed = many transition events appear
+      //so our focus is only on 'Transform'
+      if (e.propertyName !== 'transform') return;
+      this.classList.remove('playing');
+
+    }
+    const keys = document.querySelectorAll('.key')
+    //So use of 'transitionend' eventListner and a function that can specify only transform property else it fires other in other properties too -> box shadow only if there is some animation in it too.
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', playSound);
+  </script>
 
 
 </body>
+
 </html>
