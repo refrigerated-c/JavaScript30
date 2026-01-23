@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Array Cardio 💪</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
   <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
   <script>
@@ -35,32 +37,78 @@
       'Berne, Eric', 'Berra, Yogi', 'Berry, Wendell', 'Bevan, Aneurin', 'Ben-Gurion, David', 'Bevel, Ken', 'Biden, Joseph', 'Bennington, Chester', 'Bierce, Ambrose',
       'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
     ];
-    
+
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+    const fifteen = inventors.filter((born) => born.year < 1600 && born.year >= 1500);
+    //console.log(fifteen);
+    console.table(fifteen);
+
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    const names = inventors.map((val) => `${val.first} ${val.last}`)
+    console.log(names);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    console.table(inventors.sort((a, b) => a.year - b.year));
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    const initialVal = 0;
+    const sumWithInVl = inventors.reduce((acc, currentVal) => acc + (currentVal.passed - currentVal.year), initialVal);
+    console.log(sumWithInVl);
+
 
     // 5. Sort the inventors by years lived
+   const oldest = inventors.sort((a,b)=>{
+    const lastGuy = a.passed - a.year;
+    const nextGuy = b.passed- b.year;
+    return lastGuy > nextGuy ? -1: 1; //-1 - no swap needed, and 1 says swap needed
 
+   })
+   console.table(oldest);
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+
+    // const category = document.querySelector('.mw-category')
+    // const links = Array.from(category.querySelectorAll('a'));
+    // const de = links
+    //                 .map(link => link.textContent)
+    //                 .filter(streetNames => streetNames.includes('de'));
+
+   //const de = links.map(link => link.textContent) //TypeError: links.map is not a function
+   //using querySelector we get NodeList, so have to convert it to array
 
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const arrange = people.sort((lastOne, nextOne)=>{
+      const [aLast, aFirst] = lastOne.split(' ,');
+      const [bLast, bFirst] = nextOne.split(' ,');
+      return aLast > bLast ? 1: -1; //as 'e' is less than 'l' so -1 will return 
+    });
+    console.log(arrange);
+    
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck'];
+
+    //Reduce - it needs a function and initial value, here initial val is a empty object
+    const vehicle = data.reduce(function(obj, item) {
+      if(!obj[item]){
+        obj[item] = 0 
+      }
+     obj[item]++;
+     return obj;
+    }, {})
+   
+    console.log(vehicle);
+    // why we used object in function -> for counting and grouping by name, if used array instead obj -> disadvt. array use push , it uses index value with 0. 
 
   </script>
 </body>
+
 </html>
