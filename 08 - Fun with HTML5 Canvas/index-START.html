@@ -8,8 +8,63 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
-</script>
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d'); //a rendering context
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.strokeStyle = '#BADA55'
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 65;
+  //ctx.globalCompositeOperation ='multiply';//the colors will blend each other forming black color
 
+//variables
+  let isDrawing = false; //a flag which will be true when mouse clicked 'down' and false when 'up'
+  let lastX = 0; //last known X position of the mouse
+  let lastY = 0; //last known Y position of the mouse
+  let hue = 0;
+  let direction = true;
+
+  function draw(e){
+    if (!isDrawing) return; //stop the function from running when mouse not down
+    console.log(e);
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+    //ctx.lineWidth = hue;
+    ctx.beginPath();
+
+    //start from
+    ctx.moveTo(lastX, lastY);
+    //go to
+    ctx.lineTo(e.offsetX, e.offsetY); //this is from actual mouseevents 
+    ctx.stroke();
+    //now here lastX/Y will always start from 0 as set , so to update it 
+    // lastX = e.offsetX;
+    // lastY = e.offsetY;  
+    //Destructuring an array
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    hue++;
+    if (hue >= 360){
+      hue = 0;    //resesting it so it not go beyond 360
+    }
+    if (ctx.lineWidth >=100 ||ctx.lineWidth <=1){
+      direction = !direction;
+    }
+    if(direction){
+      ctx.lineWidth++;
+    } else{
+      ctx.lineWidth--;
+    }
+  }
+  canvas.addEventListener('mousedown', (e)=>{
+     isDrawing = true;
+     [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('mouseup', ()=> isDrawing = false);
+  canvas.addEventListener('mouseout', ()=> isDrawing = false); //if mouse goes out of the canvas area stop drawing and set isDrawing to false , if not it will keep drawing when mouse comes back in
+
+
+</script>
 <style>
   html, body {
     margin: 0;
