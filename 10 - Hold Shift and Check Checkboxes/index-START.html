@@ -97,6 +97,42 @@
   </div>
 
 <script>
+  const checkboxes  = document.querySelectorAll('.inbox input[type= checkbox]');
+
+  let lastChecked = checkboxes[0];
+
+  function handleFunction (f){
+    //console.log(f);
+    let inBetween = false;//a flag for confirming range
+
+    //Check if they had shifkey down
+    //And check if they are checking it not unchecking it
+    if(f.shiftKey && this.checked && lastChecked != this){
+    //e is event object and this the current checkbox
+    //console.log(f);
+    checkboxes.forEach(checkbox=> {
+      console.log(checkbox);// all nine checkboxes printed
+      if (checkbox === this || checkbox === lastChecked){
+        inBetween = !inBetween;
+        console.log('Staring to check the range');
+        
+      }
+      if(inBetween){
+        checkbox.checked = true;
+      }
+    }
+      
+      
+    )
+  }
+  lastChecked = this;
+}
+
+  checkboxes.forEach(checkbox => 
+    checkbox.addEventListener('click', handleFunction)
+  )
+  //console.log(checkboxes);
+  
 </script>
 </body>
 </html>
