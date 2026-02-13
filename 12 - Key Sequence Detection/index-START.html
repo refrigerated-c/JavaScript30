@@ -7,6 +7,29 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      const pressed = [];
+      const secretcode = 'shiv'
+      window.addEventListener('keyup', (e)=>{
+        //console.log(e);
+        pressed.push(e.key);
+        //console.log(pressed);
+        pressed.splice(-secretcode.length -1, pressed.length - secretcode.length);
+        // .splice(-5 {which will com it startng}, )
+        if(pressed.join('').includes(secretcode)){
+          console.log('DING DING');
+          cornify_add()
+          
+        }
+        console.log(pressed);
+        
+
+      })
+      const arr = [1,3,4,6,'t','y']
+      const del = arr.splice(-1,1)
+      console.log(del);
+      console.log(arr);
+      
+    </script>
   </body>
 </html>
