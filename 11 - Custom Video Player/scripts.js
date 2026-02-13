@@ -6,6 +6,7 @@ const progress = masterPlay.querySelector('.progress');
 const progressBar = masterPlay.querySelector('.progress__filled');
 const skipButtons = masterPlay.querySelectorAll('[data-skip]');
 const range = masterPlay.querySelectorAll('.player__slider');
+const fullScreenButton = masterPlay.querySelector('.fullscreen');
 
 //video.play();
 //Build out functions
@@ -48,6 +49,35 @@ function scrub(e){
 
 
 }
+// function toggleFullScreen(player){
+//     if(!document.fullscreenElement){
+//         player.requestFullscreen();
+//     } else{
+//         document.exitFullscreen();
+//     }
+// }
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+// If the document is not in full screen mode
+    // make the video full screen
+        if (masterPlay.requestFullscreen) {
+            masterPlay.requestFullscreen();
+        } 
+        else if (masterPlay.webkitRequestFullscreen) { // Safari
+            masterPlay.webkitRequestFullscreen();
+        } 
+        else if (masterPlay.msRequestFullscreen) { // Old Edge
+            masterPlay.msRequestFullscreen();
+        }
+
+    } else {
+        // Otherwise exit the full screen
+        document.exitFullscreen();
+    }
+}
+
+fullScreenButton.addEventListener('click', toggleFullScreen);
+
 //Hook up the event listener
 video.addEventListener('click', togglePlay);
 video.addEventListener('play', updateButton);
@@ -68,4 +98,6 @@ progress.addEventListener('click', scrub);
 progress.addEventListener('mousemove', (e)=> mousedown && scrub(e))
 progress.addEventListener('mousedown', ()=> mousedown = true)
 progress.addEventListener('mouseup', ()=> mousedown = false)
+fullScreenButton.addEventListener('click', toggleFullScreen)
+
 
